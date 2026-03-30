@@ -1,0 +1,285 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Estudo: Agente de Saúde - Iracemápolis</title>
+    <meta name="theme-color" content="#296a57">
+    <link rel="stylesheet" href="styles.css">
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+</head>
+
+<body>
+
+    <header class="app-header">
+        <div class="header-content">
+            <div style="display: flex; align-items: center;">
+                <img src="https://dwpt1kkww6vki.cloudfront.net/img/brasil/brasao/iracemapolis.png" alt="Brasão Iracemápolis" class="header-logo">
+                <div>
+                    <h1>Agente de Saúde</h1>
+                    <p>App de Estudo</p>
+                </div>
+            </div>
+            <button id="theme-toggle" class="theme-btn" aria-label="Alternar Tema">
+                <i class="fas fa-moon"></i>
+            </button>
+        </div>
+    </header>
+
+    <main id="app-content">
+        <!-- Renderizado dinamicamente pelo app.js -->
+    </main>
+
+    <nav class="bottom-nav">
+        <button class="nav-item active" data-target="summaries">
+            <div class="nav-icon-container"><i class="fas fa-book-reader"></i></div>
+            <span>Resumos</span>
+        </button>
+        <button class="nav-item" data-target="quiz">
+            <div class="nav-icon-container"><i class="fas fa-tasks"></i></div>
+            <span>Simulados</span>
+        </button>
+        <button class="nav-item" data-target="cidade">
+            <div class="nav-icon-container"><i class="fas fa-landmark"></i></div>
+            <span>A Cidade</span>
+        </button>
+        <button class="nav-item" data-target="lei">
+            <div class="nav-icon-container"><i class="fas fa-balance-scale"></i></div>
+            <span>A Lei</span>
+        </button>
+    </nav>
+
+    <!-- Botão Flutuante (FAB) M3 -->
+    <button id="fab-top" class="fab hidden" aria-label="Voltar ao Topo">
+        <i class="fas fa-arrow-up"></i>
+    </button>
+
+    <!-- Templates -->
+    <template id="tpl-summaries">
+        <div class="view-container fade-in">
+            <div class="chip-container" id="filter-chips-summaries">
+                <button class="chip active" data-subject="all">Todas as Matérias</button>
+                <button class="chip" data-subject="especificos">⚕️ Específicos</button>
+                <button class="chip" data-subject="portugues">🇧🇷 Português</button>
+                <button class="chip" data-subject="matematica">➗ Matemática</button>
+                <button class="chip" data-subject="gerais">🏛️ Gerais</button>
+            </div>
+            <h2>Resumos do Edital</h2>
+            <p class="subtitle" id="subtitle-summaries">Exibindo todas as matérias exigidas.</p>
+            <div id="summaries-list" class="cards-list"></div>
+        </div>
+    </template>
+
+    <template id="tpl-quiz">
+        <div class="view-container fade-in">
+            <div class="chip-container" id="filter-chips-quiz">
+                <button class="chip active" data-subject="all">Proporção (Prova real)</button>
+                <button class="chip" data-subject="especificos">Só Específicos</button>
+                <button class="chip" data-subject="portugues">Só Português</button>
+                <button class="chip" data-subject="matematica">Só Matemática</button>
+                <button class="chip" data-subject="gerais">Só Gerais</button>
+            </div>
+
+            <!-- Accordion M3 de Desempenho -->
+            <details class="stats-accordion">
+                <summary class="stats-summary">
+                    <div style="display: flex; align-items: center; gap: 8px;">
+                        <i class="fas fa-chart-pie" style="color: var(--primary);"></i> 
+                        <span>Desempenho</span>
+                        <div id="mini-stats" class="mini-stats-badge"></div>
+                    </div>
+                    <i class="fas fa-chevron-down arrow"></i>
+                </summary>
+                <div class="accordion-content">
+                    <div class="stats-grid">
+                        <div class="stat-card">
+                            <i class="fas fa-check-double color-green"></i>
+                            <h3 id="stat-correct">0</h3>
+                            <p>Acertos</p>
+                        </div>
+                        <div class="stat-card">
+                            <i class="fas fa-times-circle color-red"></i>
+                            <h3 id="stat-wrong">0</h3>
+                            <p>Erros</p>
+                        </div>
+                        <div class="stat-card full-width">
+                            <i class="fas fa-percent color-blue"></i>
+                            <h3 id="stat-accuracy">0%</h3>
+                            <p>Precisão Geral</p>
+                        </div>
+                    </div>
+                    <button id="reset-stats-btn" class="btn btn-outline" style="margin-top: 12px; width: 100%; font-size: 0.8rem; padding: 10px;">Zerar Estatísticas</button>
+                </div>
+            </details>
+
+            <div class="quiz-header">
+                <h2>Simulado Rápido</h2>
+            </div>
+            <div class="progress-container">
+                <div id="quiz-progress-bar" class="progress-bar"></div>
+            </div>
+
+            <div id="quiz-container" class="quiz-card">
+                <!-- Question injected here -->
+            </div>
+
+            <div id="quiz-feedback" class="feedback-card hidden">
+                <div class="feedback-icon"><i class="fas fa-check-circle"></i></div>
+                <h3 class="feedback-title">Correto!</h3>
+                <p class="feedback-text"></p>
+                <button id="next-question-btn" class="btn btn-primary">Próxima Questão</button>
+            </div>
+
+            <div id="quiz-result" class="result-card hidden">
+                <h2>Resultado Final</h2>
+                <div class="score-circle">
+                    <span id="score-text">0%</span>
+                </div>
+                <p id="score-message">Você está no caminho certo!</p>
+                <button id="restart-quiz-btn" class="btn btn-outline">Refazer Simulado</button>
+            </div>
+        </div>
+    </template>
+
+    <template id="tpl-lei">
+        <div class="view-container fade-in">
+            <h2>Lei Orgânica do Município</h2>
+            <div class="search-box">
+                <i class="fas fa-search"></i>
+                <input type="text" id="lei-search" placeholder="Buscar por palavra-chave, 'Art.' ou 'Sanção'...">
+            </div>
+
+            <!-- Índice da Lei Orgânica M3 -->
+            <details class="stats-accordion" style="margin-top: 20px;">
+                <summary class="stats-summary">
+                    <div style="display: flex; align-items: center; gap: 8px;">
+                        <i class="fas fa-list-ul" style="color: var(--primary);"></i> 
+                        <span>Índice Estrutural</span>
+                    </div>
+                    <i class="fas fa-chevron-down arrow"></i>
+                </summary>
+                <div class="accordion-content" id="lei-index" style="max-height: 300px; overflow-y: auto;">
+                    <!-- Injeção dos Titulos e Capítulos via app.js -->
+                </div>
+            </details>
+
+            <div id="lei-content" style="margin-top: 20px;"></div>
+        </div>
+    </template>
+
+    <template id="tpl-cidade">
+        <div class="view-container fade-in">
+            <div class="cidade-hero">
+                <!-- Usando foto aerea da cidade como a imagem de fundo que não tem bloqueio de CORS -->
+                <img src="https://www.refugiosnointerior.com.br/sistema/_lib/file/img/fotos_cidade/9227/IRACEMAPOLIS.jpg"
+                    alt="Foto Satelite Iracemapolis">
+                <!-- <img src="https://projeto-cdn.infra.grancursosonline.com.br/prefeitura-de-iracemapolis-sp.jpg"
+                    alt="Iracemápolis Brasão" style="object-fit: contain; padding: 20px; background: white;"> -->
+                <div class="hero-gradient">
+                    <h2>Iracemápolis</h2>
+                    <p>A Cidade "Lábios de Mel"</p>
+                </div>
+            </div>
+
+            <div class="ibge-grid">
+                <div class="ibge-card">
+                    <i class="fas fa-users"></i>
+                    <h3>21.967</h3>
+                    <p>População (2022)</p>
+                </div>
+                <div class="ibge-card">
+                    <i class="fas fa-chart-line"></i>
+                    <h3>0,776</h3>
+                    <p>IDH (Alto)</p>
+                </div>
+                <div class="ibge-card">
+                    <i class="fas fa-map-marked-alt"></i>
+                    <h3>115,1 km²</h3>
+                    <p>Área Territorial</p>
+                </div>
+                <div class="ibge-card">
+                    <i class="fas fa-street-view"></i>
+                    <h3>190,82</h3>
+                    <p>Habitantes/km²</p>
+                </div>
+            </div>
+
+            <h2 style="margin-bottom: 20px;">A História (Íntegra Oficial)</h2>
+
+            <div class="lei-block">
+                <strong>O Começo e o Bate-Pau</strong><br><br>
+                Considera-se o ano de 1891 como o de fundação do povoado de Santa Cruz da Boa Vista, alterado mais tarde
+                para Iracemápolis, em virtude de ter a povoação se instalado em terras da Fazenda Iracema, de
+                propriedade de Silvério Jordão.
+                O que distinguia Santa Cruz da Boa Vista dos bairros da época era o estilo festivo de seus poucos
+                moradores. No final do século 19, quando não abrigava mais que duzentos habitantes, apesar do nome
+                oficial, já era conhecido por “Bate Pau”, o que nada tem a ver com brigas, mas com a dança tradicional
+                de escravos que se alojavam nos arredores do Morro Azul.
+            </div>
+
+            <div class="lei-block">
+                <strong>Lábios de Mel</strong><br><br>
+                “Iracema” vem da língua indígena e quer dizer “lábios de mel”. “Polis” é de origem grega e significa
+                “cidade”. Portanto, Iracemápolis é a “cidade lábios de mel”. Seu habitante ficou conhecido erroneamente
+                como “iracemapolense”. O correto, de acordo com as normas da língua, seria “iracemapolitano”. Afinal,
+                “polis” na formação do gentílico dá origem a “politano” e não a “polense”.
+            </div>
+
+            <div class="lei-block">
+                <strong>A Década de 1910 e os Pioneiros</strong><br><br>
+                Era um lugarejo tranqüilo, de poucas casas. A década de 1910 ficou marcada por fatos que seriam o
+                alicerce do lento progresso que chegaria. Em 1912, instalou-se a primeira escola primária, na Praça João
+                Pessoa, com a chegada da primeira professora, Dona Constantina Vaz.
+                Por volta de 1915, chegou a família Simões, vinda de Limeira. Logo depois, o Capitão Paulo Simões
+                inaugurou a primeira farmácia, a “Farmácia Veado”. Seu Barretinho e Sinhá Silveira foram donos do
+                primeiro telefone da vila (em 1911) e de uma grande casa onde instalaram, em 1916, o primeiro armazém de
+                secos e molhados.
+            </div>
+
+            <div class="lei-block">
+                <strong>Crescimento Econômico</strong><br><br>
+                A família Ometto chegou em 1918, quando comprou a Fazenda Aparecida, antiga Fazenda Angélica. Os
+                responsáveis por ela eram João, Constante e José Ometto. A cana-de-açúcar foi o grande alicerce
+                econômico. Com os Omettos, veio a energia elétrica. Até então, a iluminação era feita por lampiões.
+                A população foi crescendo e, em 1923, o Governador do Estado de São Paulo, Washington Luís, elevou o
+                povoado à categoria de Distrito de Paz, por meio da Lei nº 1931, de 29 de outubro. O Distrito,
+                pertencente a Limeira, passou a se chamar Iracemápolis, uma homenagem ao coronel José Levy, proprietário
+                da Fazenda Iracema, em cujas terras nasceu a vila.
+            </div>
+
+            <div class="lei-block">
+                <strong>Costumes, Progresso e a Usina Iracema</strong><br><br>
+                O Cartório de Registros foi aberto em 1924 (primeiro registro: Humberto Ferreira, e primeiro casamento:
+                Dona Quininha e Eunice). Em 1930, Gaudino Gonçalves de Lima fez uma reivindicação de reserva de terras
+                para o cemitério, doado pelo Coronel José Levy.
+                Em 1937, Constante, Pedro, João, Luiz e Antônio Ometto fundam a Companhia Industrial e Agrícola Ometto,
+                para instalar uma destilaria de álcool. No mesmo ano, é criado o curso de alfabetização de adultos com o
+                primeiro professor, o Sr. José Chinellato, que viria a ser o primeiro prefeito de Iracemápolis.
+            </div>
+
+            <div class="lei-block">
+                <strong>Enfim, a Emancipação!</strong><br><br>
+                Muitos moradores batalharam pela emancipação, mas não há dúvida de que a figura de Paulo Aparecido
+                Simões foi de enorme importância. Na época, Paulo era vereador em Limeira e encaminhou a moção
+                requerendo a independência.
+                <br><br>
+                Com a emancipação, a cidade passou a ter vida própria. De acordo com o que dispõe a lei nº 2.456, de 31
+                de dezembro de 1953, foi instalado no dia 1 de janeiro um novo município no Estado de São Paulo:
+                Iracemápolis!
+            </div>
+
+            <div style="text-align: center; margin-top:20px; opacity: 0.6; font-size: 0.8rem; padding-bottom: 20px;">
+                <p>Fonte Histórica Integal: Portal de Serviços de Iracemápolis (www.iracemapolis.sp.gov.br) e IBGE 2022.
+                </p>
+            </div>
+        </div>
+    </template>
+
+    <script src="LeiOraganicaIracemapolis.js"></script>
+    <script src="data.js"></script>
+    <script src="app.js"></script>
+</body>
+
+</html>
