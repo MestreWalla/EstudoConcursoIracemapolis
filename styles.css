@@ -367,6 +367,58 @@ h1, h2, h3 { color: var(--on-surface); font-weight: 500; letter-spacing: -0.2px;
     border-radius: var(--radius-large);
 }
 
+/* Hierarquia visual da Lei Orgânica */
+.lei-block.lei-titulo {
+    background: var(--primary);
+    color: var(--on-primary);
+    border-color: transparent;
+    border-radius: var(--radius-large);
+    padding: 18px 20px;
+    font-size: 1rem;
+    font-weight: 700;
+    letter-spacing: 0.3px;
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+    margin-top: 8px;
+}
+.lei-block.lei-capitulo {
+    background: var(--primary-container);
+    color: var(--on-primary-container);
+    border-color: transparent;
+    border-radius: var(--radius-medium);
+    padding: 14px 18px;
+    font-size: 0.95rem;
+    font-weight: 600;
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+}
+.lei-block.lei-secao {
+    background: transparent;
+    border-color: transparent;
+    border-bottom: 1px solid var(--outline-variant);
+    border-radius: 0;
+    padding: 10px 4px;
+    font-size: 0.9rem;
+    color: var(--on-surface-variant);
+    margin-bottom: 4px;
+}
+.lei-label {
+    font-size: 0.65rem;
+    font-weight: 700;
+    letter-spacing: 1.5px;
+    text-transform: uppercase;
+    opacity: 0.75;
+    display: block;
+}
+.lei-nome {
+    font-size: 1.1rem;
+    font-weight: 700;
+    display: block;
+    letter-spacing: 0.2px;
+}
+
 .hidden { display: none !important; }
 .fade-in { animation: viewTransition 0.4s cubic-bezier(0.2, 0, 0, 1) both; }
 

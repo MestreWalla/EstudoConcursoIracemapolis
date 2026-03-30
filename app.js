@@ -224,28 +224,74 @@ function initLei() {
     const list = document.getElementById('lei-content');
     const input = document.getElementById('lei-search');
     
+    function isHeadingName(line) {
+        // Retorna true se a linha é um nome descritivo (não um marcador nem artigo)
+        return line
+            && !line.startsWith('Art.')
+            && !line.startsWith('TÍTULO')
+            && !line.startsWith('CAPÍTULO')
+            && !line.startsWith('Seção')
+            && !line.startsWith('§')
+            && !line.startsWith('PREÂMBULO')
+            && !line.startsWith('I -')
+            && !line.startsWith('I–')
+            && line.length < 80;
+    }
+
     function renderBlocks(filterText = "") {
         list.innerHTML = "";
         const termo = filterText.toLowerCase();
         
         let cont = 0;
-        // leiCompleta é uma variavel global de LeiOraganicaIracemapolis.js
+        let skipNext = false;
+
         for (let i = 0; i < leiCompleta.length; i++) {
+            if (skipNext) { skipNext = false; continue; }
+
             const par = leiCompleta[i];
-            
-            if (termo && !par.toLowerCase().includes(termo)) continue;
-            
+            const nextPar = leiCompleta[i + 1] || '';
+
+            // Verifica se deve mesclar com a próxima linha (nome descritivo)
+            const shouldMerge = isHeadingName(nextPar);
+
+            // Filtro de busca: considera o bloco inteiro (rótulo + nome)
+            const fullText = shouldMerge ? par + ' ' + nextPar : par;
+            if (termo && !fullText.toLowerCase().includes(termo)) continue;
+
             const div = document.createElement('div');
             div.className = 'lei-block';
-            
-            if (par.startsWith('Art.') || par.startsWith('TÍTULO') || par.startsWith('CAPÍTULO')) {
+
+            if (par.startsWith('TÍTULO')) {
+                div.classList.add('destaque', 'lei-titulo');
+                div.innerHTML = shouldMerge
+                    ? `<span class="lei-label">TÍTULO</span> ${par.replace('TÍTULO', '').trim()} <span class="lei-nome">${nextPar}</span>`
+                    : `<span class="lei-label">TÍTULO</span> ${par.replace('TÍTULO', '').trim()}`;
+                if (shouldMerge) skipNext = true;
+
+            } else if (par.startsWith('CAPÍTULO')) {
+                div.classList.add('destaque', 'lei-capitulo');
+                div.innerHTML = shouldMerge
+                    ? `<span class="lei-label">CAPÍTULO</span> ${par.replace('CAPÍTULO', '').trim()} <span class="lei-nome">${nextPar}</span>`
+                    : `<span class="lei-label">CAPÍTULO</span> ${par.replace('CAPÍTULO', '').trim()}`;
+                if (shouldMerge) skipNext = true;
+
+            } else if (par.startsWith('Seção')) {
+                div.classList.add('lei-secao');
+                div.innerHTML = shouldMerge
+                    ? `<em><strong>${par}</strong> — ${nextPar}</em>`
+                    : `<em><strong>${par}</strong></em>`;
+                if (shouldMerge) skipNext = true;
+
+            } else if (par.startsWith('Art.')) {
                 div.classList.add('destaque');
+                div.textContent = par;
+
+            } else {
+                div.textContent = par;
             }
-            
-            div.textContent = par;
+
             list.appendChild(div);
-            
-            // Limitador para pesquisa rápida sem travar
+
             if (termo) {
                 cont++;
                 if (cont > 150) break;
@@ -258,10 +304,22 @@ function initLei() {
     if (indexContainer && indexContainer.children.length === 0) {
         let indexHtml = '';
         leiCompleta.forEach((par, idx) => {
+            // Pega o nome descritivo da linha seguinte (ex: "DA ORGANIZAÇÃO MUNICIPAL")
+            const nextLine = leiCompleta[idx + 1] || '';
+            const nome = (!nextLine.startsWith('Art.')
+                       && !nextLine.startsWith('CAPÍTULO')
+                       && !nextLine.startsWith('TÍTULO')
+                       && !nextLine.startsWith('Seção')
+                       && !nextLine.startsWith('§')
+                       && nextLine.length < 80)
+                       ? nextLine : '';
+
             if (par.startsWith('TÍTULO')) {
-                indexHtml += `<a href="#" class="index-item titulo" data-idx="${idx}">${par}</a>`;
+                const label = nome ? `${par} — ${nome}` : par;
+                indexHtml += `<a href="#" class="index-item titulo" data-idx="${idx}">${label}</a>`;
             } else if (par.startsWith('CAPÍTULO')) {
-                indexHtml += `<a href="#" class="index-item" data-idx="${idx}">&bull; ${par}</a>`;
+                const label = nome ? `${par} — ${nome}` : par;
+                indexHtml += `<a href="#" class="index-item" data-idx="${idx}">&bull; ${label}</a>`;
             }
         });
         indexContainer.innerHTML = indexHtml;
