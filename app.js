@@ -441,13 +441,13 @@ function showQuestion() {
 
 function handleAnswer(selectedIndex, btnElement, optsDiv) {
     const qData = appState.quiz.questions[appState.quiz.currentIndex];
-    const isCorrect = selectedIndex === qData.answerIndex;
+    const isCorrect = selectedIndex === qData.correctIndex;
     
     // Desabilitar botões
     const btns = optsDiv.querySelectorAll('button');
     btns.forEach((b, i) => {
         b.disabled = true;
-        if (i === qData.answerIndex) b.classList.add('correct');
+        if (i === qData.correctIndex) b.classList.add('correct');
         else if (i === selectedIndex && !isCorrect) b.classList.add('wrong');
     });
     
