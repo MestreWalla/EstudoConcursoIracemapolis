@@ -547,23 +547,23 @@ const quizDb = [
     {
         id: "q_g3",
         subject: "gerais",
-        question: "Quem encaminhou a moção requerendo a independência de Iracemápolis enquanto ainda era vereador em Limeira?",
+        question: "Em que ano Iracemápolis foi emancipada e tornou-se Município independente, deixando de ser distrito de Limeira?",
         options: [
-            "Coronel José Levy",
-            "José Chinellato",
-            "Governador Washington Luís",
-            "Paulo Aparecido Simões"
+            "1923",
+            "1945",
+            "1953",
+            "1960"
         ],
-        correctIndex: 3,
-        explanation: "Paulo Aparecido Simões foi a grande figura que encampou o processo político da emancipação até a Lei nº 2.456 de 31/12/1953."
+        correctIndex: 2,
+        explanation: "A Lei Estadual nº 2.456, de 31 de dezembro de 1953, criou o Município de Iracemápolis, desmembrando-o de Limeira. José Chinellato tornou-se o primeiro prefeito."
     },
     {
         id: "q_g5",
         subject: "gerais",
-        question: "Qual é o ano considerado oficialmente como o de fundação do povoado de Iracemápolis?",
-        options: ["1891", "1923", "1953", "1912"],
-        correctIndex: 0,
-        explanation: "1891 = fundação do povoado. 1923 = elevação a Distrito. 1953 = emancipação do Município."
+        question: "Em que ano Iracemápolis foi elevada à categoria de Distrito, separando-se de Limeira?",
+        options: ["1891", "1923", "1953", "1937"],
+        correctIndex: 1,
+        explanation: "Em 1923 o núcleo de Santa Cruz da Boa Vista foi oficialmente elevado a Distrito de Limeira, com o nome de Iracemápolis. A emancipação como Município veio em 31/12/1953."
     },
     {
         id: "q_g6",
@@ -677,11 +677,17 @@ const quizDb = [
     {
         id: "q_p9",
         subject: "portugues",
-        question: "Assinale a alternativa com a forma verbal CORRETA de concordância: 'Faz ___ que não visito aquele bairro.'",
-        options: ["Dois anos", "Dois anos (verbo fazer no singular está incorreto, deveria ser 'fazem')", "Dois anos — mas deveria ser 'há dois anos'", "Dois anos — verbo 'fazer' indicando tempo é impessoal."],
-        correctIndex: 3,
-        explanation: "'Fazer' indicando tempo decorrido é verbo impessoal — fica sempre no singular. 'Faz dois anos' está correto. O verbo 'haver' também funciona assim: 'Há dois anos'."
+        question: "Qual das frases abaixo está CORRETA quanto ao uso de verbo impessoal de tempo?",
+        options: [
+            "Fazem dois anos que não visito aquele bairro.",
+            "Faziam muitos dias que ela não aparecia.",
+            "Faz dois anos que não visito aquele bairro.",
+            "Há de fazer dois meses que chegamos."
+        ],
+        correctIndex: 2,
+        explanation: "'Fazer' indicando tempo decorrido é verbo impessoal — sempre no singular: 'Faz dois anos'. 'Fazem' e 'Faziam' (plural) estão errados nesse sentido. 'Haver' tb é impessoal: 'Há dois anos'."
     },
+
     {
         id: "q_p10",
         subject: "portugues",
