@@ -112,6 +112,21 @@ function bindChips() {
             }
             
             currentSubject = e.currentTarget.getAttribute('data-subject');
+            const currentUnidade = e.currentTarget.getAttribute('data-unidade');
+            
+            // Apostila filter
+            if (currentUnidade !== null && document.getElementById('apostila-list')) {
+                initApostila(currentUnidade);
+                const subtitlesApostila = {
+                    'all': 'Material didático PRONATEC/IFPR — adaptado ao Edital Iracemápolis.',
+                    '1': 'Unidade 1 — Fundamentos de Administração.',
+                    '2': 'Unidade 2 — Noções de Gestão de Empresas.',
+                    '3': 'Unidade 3 — Gestão Organizacional: Rotinas e Documentos.'
+                };
+                const sub = document.getElementById('subtitle-apostila');
+                if (sub) sub.textContent = subtitlesApostila[currentUnidade] || subtitlesApostila['all'];
+                return;
+            }
             
             // Recarrega a view de acordo com o lugar onde estavamos
             if (document.getElementById('summaries-list')) {
@@ -139,7 +154,8 @@ const templates = {
     summaries: document.getElementById('tpl-summaries').innerHTML,
     quiz: document.getElementById('tpl-quiz').innerHTML,
     lei: document.getElementById('tpl-lei').innerHTML,
-    cidade: document.getElementById('tpl-cidade').innerHTML
+    cidade: document.getElementById('tpl-cidade').innerHTML,
+    apostila: document.getElementById('tpl-apostila').innerHTML
 };
 
 // Inicialização
@@ -178,6 +194,7 @@ function renderView(view) {
     if (view === 'quiz') initQuiz();
     if (view === 'stats') renderStats();
     if (view === 'lei') initLei();
+    if (view === 'apostila') initApostila();
 }
 
 // Resumos
@@ -212,6 +229,48 @@ function initSummaries() {
             </div>
         `;
         
+        div.addEventListener('click', () => {
+            playSound('tick');
+            div.classList.toggle('expanded');
+        });
+        list.appendChild(div);
+    });
+}
+
+// ═══════════════════════════════════════════════════════════
+// Apostila — Auxiliar Administrativo (PRONATEC/IFPR)
+// ═══════════════════════════════════════════════════════════
+function initApostila(unidadeFilter = 'all') {
+    const list = document.getElementById('apostila-list');
+    if (!list) return;
+    list.innerHTML = '';
+
+    let items = apostilaCapitulos;
+    if (unidadeFilter !== 'all') {
+        items = apostilaCapitulos.filter(c => String(c.unidade) === String(unidadeFilter));
+    }
+
+    if (items.length === 0) {
+        list.innerHTML = '<p style="text-align:center;margin-top:20px;">Nenhum capítulo nesta unidade.</p>';
+        return;
+    }
+
+    items.forEach(cap => {
+        const div = document.createElement('div');
+        div.className = 'summary-card';
+        div.innerHTML = `
+            <div class="summary-header">
+                <div>
+                    <span class="badge alta" style="background:var(--secondary-container);color:var(--on-secondary-container);">Unidade ${cap.unidade}</span>
+                    <h3 style="margin-top: 5px;">${cap.icon} ${cap.title}</h3>
+                </div>
+                <i class="fas fa-chevron-down toggle-icon"></i>
+            </div>
+            <div class="summary-content">
+                ${cap.content}
+            </div>
+        `;
+
         div.addEventListener('click', () => {
             playSound('tick');
             div.classList.toggle('expanded');

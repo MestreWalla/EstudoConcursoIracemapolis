@@ -41,6 +41,10 @@
             <div class="nav-icon-container"><i class="fas fa-tasks"></i></div>
             <span>Simulados</span>
         </button>
+        <button class="nav-item" data-target="apostila">
+            <div class="nav-icon-container"><i class="fas fa-graduation-cap"></i></div>
+            <span>Apostila</span>
+        </button>
         <button class="nav-item" data-target="cidade">
             <div class="nav-icon-container"><i class="fas fa-landmark"></i></div>
             <span>A Cidade</span>
@@ -279,8 +283,24 @@
         </div>
     </template>
 
+    <!-- Template Apostila -->
+    <template id="tpl-apostila">
+        <div class="view-container fade-in">
+            <div class="chip-container" id="filter-chips-apostila">
+                <button class="chip active" data-unidade="all">📚 Todas</button>
+                <button class="chip" data-unidade="1">🏢 Unidade 1 — Fundamentos</button>
+                <button class="chip" data-unidade="2">📊 Unidade 2 — Gestão</button>
+                <button class="chip" data-unidade="3">✍️ Unidade 3 — Rotinas</button>
+            </div>
+            <h2>Apostila — Auxiliar Administrativo</h2>
+            <p class="subtitle" id="subtitle-apostila">Material didático PRONATEC/IFPR — adaptado ao Edital Iracemápolis.</p>
+            <div id="apostila-list" class="cards-list"></div>
+        </div>
+    </template>
+
     <script src="LeiOraganicaIracemapolis.js"></script>
     <script src="data.js"></script>
+    <script src="apostila.js"></script>
     <script src="app.js"></script>
 </body>
 
