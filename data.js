@@ -1,12 +1,385 @@
-/* Banco de Dados: Agente Comunitário de Saúde - Edital 001/2026 */
-/* Versão 2.0 — Expansão massiva de Matemática e Português */
+/* Banco de Dados: Agente Comunitário de Saúde / Auxiliar Administrativo - Edital 001/2026 */
+/* Versão 3.0 — Adição de Conhecimentos Específicos: Administração */
 
 // GERAIS = 'gerais'
 // ESPECIFICOS = 'especificos'
 // PORTUGUES = 'portugues'
 // MATEMATICA = 'matematica'
+// ADMINISTRACAO = 'administracao' (subconjunto de especificos para Aux. Administrativo)
 
 const summaries = [
+    // ─── ADMINISTRAÇÃO (Aux. Administrativo) ───────────────────────────
+    {
+        id: "adm_redacao",
+        subject: "administracao",
+        title: "Redação Oficial — Atas, Ofícios e Requerimentos",
+        content: `
+            <h3>📄 Comunicações Oficiais — Regras Gerais</h3>
+            <p>A redação oficial deve ser <strong>clara, concisa, impessoal e objetiva</strong>. Evite gírias, linguagem afetiva e subjetividade.</p>
+
+            <h3>📋 ATA</h3>
+            <div style="background:var(--surface-variant);border-radius:8px;padding:12px;margin:8px 0;">
+                <strong>O que é:</strong> Documento que registra o que foi discutido e decidido em uma reunião.<br><br>
+                <strong>Estrutura:</strong><br>
+                1. Cabeçalho (data, hora, local e participantes)<br>
+                2. Corpo (relato dos fatos e decisões na ordem em que ocorreram)<br>
+                3. Encerramento ("Nada mais havendo a tratar...")<br>
+                4. Assinaturas dos presentes<br><br>
+                <strong>⚠️ Regras fundamentais:</strong>
+                <ul>
+                    <li>Redigida em seguida (sem espaços em branco — para evitar adulteração)</li>
+                    <li>Não pode ter rasuras — erros se corrigem com "digo" ou "em tempo"</li>
+                    <li>Verbo no passado (pretérito)</li>
+                </ul>
+            </div>
+
+            <h3>📨 OFÍCIO</h3>
+            <div style="background:var(--surface-variant);border-radius:8px;padding:12px;margin:8px 0;">
+                <strong>O que é:</strong> Comunicação formal entre órgãos públicos ou entre um órgão e o cidadão.<br><br>
+                <strong>Estrutura:</strong><br>
+                1. Tipo e número do documento (ex: Ofício nº 123/2026)<br>
+                2. Local e data<br>
+                3. Destinatário (com cargo e endereço)<br>
+                4. Assunto<br>
+                5. Corpo do texto<br>
+                6. Fecho de cortesia ("Atenciosamente,")<br>
+                7. Assinatura e cargo do remetente
+            </div>
+
+            <h3>📝 REQUERIMENTO</h3>
+            <div style="background:var(--surface-variant);border-radius:8px;padding:12px;margin:8px 0;">
+                <strong>O que é:</strong> Pedido feito por um indivíduo a uma autoridade pública.<br><br>
+                <strong>Estrutura:</strong><br>
+                1. Vocativo (ex: "Ilmo. Sr. Prefeito Municipal")<br>
+                2. Identificação do requerente (nome, qualificação, endereço)<br>
+                3. Objeto do pedido<br>
+                4. Fundamentação legal (quando houver)<br>
+                5. Fecho: "Nestes termos, pede deferimento."<br>
+                6. Local, data e assinatura
+            </div>
+            <p>💡 <strong>Dica:</strong> A principal diferença — <em>Ofício</em> vai de autoridade para autoridade; <em>Requerimento</em> vai de cidadão para autoridade; <em>Memorando</em> vai internamente entre setores do mesmo órgão.</p>
+        `,
+        relevance: "alta"
+    },
+    {
+        id: "adm_protocolo",
+        subject: "administracao",
+        title: "Protocolo e Arquivo — Classificação e Organização",
+        content: `
+            <h3>📬 PROTOCOLO</h3>
+            <p>O protocolo é o setor responsável pelo <strong>recebimento, registro, distribuição e expedição</strong> de documentos.</p>
+            <div style="background:var(--surface-variant);border-radius:8px;padding:12px;margin:8px 0;">
+                <strong>Etapas do Protocolo (entrada de documentos):</strong>
+                <ol>
+                    <li><strong>Recepção:</strong> Receber o documento</li>
+                    <li><strong>Classificação:</strong> Identificar o assunto e destino</li>
+                    <li><strong>Registro:</strong> Numerar e registrar (carimbagem + número)</li>
+                    <li><strong>Autuação:</strong> Abrir processo e juntar documentos</li>
+                    <li><strong>Distribuição/Encaminhamento:</strong> Enviar ao setor competente</li>
+                    <li><strong>Expedição:</strong> Enviar ao destinatário externo</li>
+                </ol>
+            </div>
+
+            <h3>🗃️ ARQUIVO</h3>
+            <p>Conjunto de documentos produzidos ou recebidos por uma entidade no exercício de suas funções.</p>
+
+            <h3>Classificação dos Arquivos</h3>
+            <div style="background:var(--surface-variant);border-radius:8px;padding:12px;margin:8px 0;">
+                <strong>Por fase de uso (ciclo vital):</strong>
+                <ul>
+                    <li><strong>Corrente (ativo):</strong> Documentos em uso frequente — ficam no setor</li>
+                    <li><strong>Intermediário (semiativo):</strong> Uso eventual — aguardam prazos legais</li>
+                    <li><strong>Permanente (inativo):</strong> Valor histórico — guardados para sempre</li>
+                </ul>
+            </div>
+            <div style="background:var(--surface-variant);border-radius:8px;padding:12px;margin:8px 0;">
+                <strong>Métodos de arquivamento mais cobrados:</strong>
+                <ul>
+                    <li><strong>Alfabético:</strong> Por nome (o mais simples)</li>
+                    <li><strong>Numérico:</strong> Por número (requer índice auxiliar)</li>
+                    <li><strong>Cronológico:</strong> Por data</li>
+                    <li><strong>Geográfico:</strong> Por local/estado/cidade</li>
+                    <li><strong>Assunto (temático):</strong> Por conteúdo do documento</li>
+                    <li><strong>Alfanumérico (misto):</strong> Combina letra + número</li>
+                </ul>
+            </div>
+            <p>💡 <strong>Destinação final:</strong> Os documentos podem ser <em>eliminados</em> (descartados após prazo) ou <em>recolhidos ao arquivo permanente</em>.</p>
+        `,
+        relevance: "alta"
+    },
+    {
+        id: "adm_etica",
+        subject: "administracao",
+        title: "Ética no Serviço Público e Relações Interpessoais",
+        content: `
+            <h3>⚖️ Princípios da Administração Pública (Art. 37 CF)</h3>
+            <div style="background:var(--primary-container);color:var(--on-primary-container);border-radius:8px;padding:16px;margin:8px 0;text-align:center;font-size:1.1rem;">
+                <strong>L — I — M — P — E</strong><br>
+                <small>Legalidade · Impessoalidade · Moralidade · Publicidade · Eficiência</small>
+            </div>
+            <ul>
+                <li><strong>Legalidade:</strong> O servidor só pode fazer o que a lei autoriza</li>
+                <li><strong>Impessoalidade:</strong> Atender todos sem distinção, sem favoritismo</li>
+                <li><strong>Moralidade:</strong> Agir com ética, honestidade e boa-fé</li>
+                <li><strong>Publicidade:</strong> Atos devem ser transparentes ao cidadão</li>
+                <li><strong>Eficiência:</strong> Fazer mais com menos recursos, com qualidade</li>
+            </ul>
+
+            <h3>🤝 Ética Profissional do Servidor</h3>
+            <div style="background:var(--surface-variant);border-radius:8px;padding:12px;margin:8px 0;">
+                <strong>Deveres do servidor público:</strong>
+                <ul>
+                    <li>Atender o cidadão com presteza e cordialidade</li>
+                    <li>Guardar sigilo de informações privilegiadas</li>
+                    <li>Zelar pela conservação do patrimônio público</li>
+                    <li>Agir com lealdade à instituição</li>
+                    <li>Ser assíduo e pontual</li>
+                </ul>
+            </div>
+            <div style="background:var(--error-container);color:var(--on-error-container);border-radius:8px;padding:12px;margin:8px 0;">
+                <strong>Proibições ao servidor público:</strong>
+                <ul>
+                    <li>❌ Receber presentes, vantagens ou propinas</li>
+                    <li>❌ Usar o cargo para fins pessoais</li>
+                    <li>❌ Revelar informações sigilosas</li>
+                    <li>❌ Tratar com desigualdade cidadãos em situação idêntica (impessoalidade)</li>
+                    <li>❌ Cobrar qualquer valor para prestar serviço público</li>
+                </ul>
+            </div>
+
+            <h3>💬 Relações Interpessoais no Trabalho</h3>
+            <ul>
+                <li><strong>Comunicação assertiva:</strong> Expressar-se com clareza, sem agressividade</li>
+                <li><strong>Trabalho em equipe:</strong> Colaborar e respeitar diferenças</li>
+                <li><strong>Empatia:</strong> Compreender a perspectiva do colega/cidadão</li>
+                <li><strong>Resolução de conflitos:</strong> Buscar acordo, evitar retaliação</li>
+                <li><strong>Sigilo funcional:</strong> Não falar de processos internos a estranhos</li>
+            </ul>
+        `,
+        relevance: "alta"
+    },
+    {
+        id: "adm_informatica_win",
+        subject: "administracao",
+        title: "Informática — Windows 10 e Conceitos Gerais",
+        content: `
+            <h3>🖥️ Conceitos Básicos de Informática</h3>
+            <div style="background:var(--surface-variant);border-radius:8px;padding:12px;margin:8px 0;">
+                <strong>Hardware vs. Software</strong><br>
+                <ul>
+                    <li><strong>Hardware:</strong> Parte física do computador (teclado, mouse, HD, RAM, processador, monitor)</li>
+                    <li><strong>Software:</strong> Programas e sistemas (Windows, Word, antivírus)</li>
+                    <li><strong>Sistema Operacional:</strong> Gerencia o hardware e permite rodar programas (ex: Windows 10)</li>
+                </ul>
+            </div>
+
+            <h3>📁 Windows 10 — Conceitos Essenciais</h3>
+            <ul>
+                <li><strong>Área de Trabalho (Desktop):</strong> Área principal após login</li>
+                <li><strong>Ícone:</strong> Representação gráfica de um arquivo, pasta ou programa</li>
+                <li><strong>Atalho:</strong> Link que aponta para um arquivo/programa (tem seta no ícone)</li>
+                <li><strong>Pasta (Diretório):</strong> Estrutura para organizar arquivos</li>
+                <li><strong>Arquivo:</strong> Unidade de dados com extensão (.docx, .xlsx, .pdf)</li>
+                <li><strong>Área de Transferência:</strong> Memória temporária do Ctrl+C / Ctrl+V</li>
+            </ul>
+
+            <h3>⌨️ Atalhos do Windows Mais Cobrados</h3>
+            <div style="background:var(--surface-variant);border-radius:8px;padding:12px;margin:8px 0;font-family:monospace;">
+                <strong>Ctrl+C</strong> → Copiar<br>
+                <strong>Ctrl+X</strong> → Recortar<br>
+                <strong>Ctrl+V</strong> → Colar<br>
+                <strong>Ctrl+Z</strong> → Desfazer<br>
+                <strong>Ctrl+A</strong> → Selecionar tudo<br>
+                <strong>Del</strong> → Enviar para Lixeira<br>
+                <strong>Shift+Del</strong> → Excluir permanentemente<br>
+                <strong>Alt+F4</strong> → Fechar janela<br>
+                <strong>PrintScreen</strong> → Captura de tela<br>
+                <strong>Win+D</strong> → Mostrar/ocultar Desktop<br>
+                <strong>Win+E</strong> → Abrir Explorador de Arquivos
+            </div>
+
+            <h3>🔍 Explorador de Arquivos (File Explorer)</h3>
+            <ul>
+                <li>Permite navegar por pastas, copiar, mover, renomear e excluir arquivos</li>
+                <li><strong>Lixeira:</strong> Guarda os arquivos deletados — é possível restaurá-los enquanto estão lá</li>
+                <li>Arquivos deletados com <em>Shift+Del</em> NÃO vão para a lixeira</li>
+            </ul>
+        `,
+        relevance: "alta"
+    },
+    {
+        id: "adm_word_excel",
+        subject: "administracao",
+        title: "MS-Word 2016 e MS-Excel 2016 — Funções Essenciais",
+        content: `
+            <h3>📝 MS-Word 2016</h3>
+            <div style="background:var(--surface-variant);border-radius:8px;padding:12px;margin:8px 0;">
+                <strong>Atalhos mais cobrados:</strong>
+                <ul>
+                    <li><strong>Ctrl+N</strong> → Negrito | <strong>Ctrl+I</strong> → Itálico | <strong>Ctrl+S</strong> → Sublinhado</li>
+                    <li><strong>Ctrl+P</strong> → Imprimir | <strong>Ctrl+F</strong> → Localizar | <strong>Ctrl+H</strong> → Substituir</li>
+                    <li><strong>Ctrl+Enter</strong> → Quebra de página | <strong>F7</strong> → Verificar ortografia</li>
+                    <li><strong>Ctrl+Home</strong> → Ir ao início | <strong>Ctrl+End</strong> → Ir ao final</li>
+                </ul>
+            </div>
+            <div style="background:var(--surface-variant);border-radius:8px;padding:12px;margin:8px 0;">
+                <strong>Recursos do Word:</strong>
+                <ul>
+                    <li><strong>Cabeçalho e Rodapé:</strong> Repetição de informação em todas as páginas</li>
+                    <li><strong>Sumário (Índice):</strong> Gerado automaticamente a partir de títulos (estilos)</li>
+                    <li><strong>Colunas:</strong> Texto distribuído em 2 ou mais colunas (como jornal)</li>
+                    <li><strong>Tabelas:</strong> Grade de linhas e colunas para organizar dados</li>
+                    <li><strong>Mala Direta:</strong> Envio de documento personalizado para vários destinatários</li>
+                    <li><strong>Controle de Alterações:</strong> Registro de edições para revisão</li>
+                </ul>
+            </div>
+
+            <h3>📊 MS-Excel 2016</h3>
+            <div style="background:var(--surface-variant);border-radius:8px;padding:12px;margin:8px 0;">
+                <strong>Conceitos Fundamentais:</strong>
+                <ul>
+                    <li><strong>Célula:</strong> Interseção de linha e coluna (ex: A1, B2)</li>
+                    <li><strong>Planilha:</strong> Folha de trabalho com células</li>
+                    <li><strong>Pasta de Trabalho:</strong> Arquivo .xlsx que contém várias planilhas</li>
+                    <li><strong>Fórmula:</strong> Começa com <strong>=</strong> (ex: =A1+B1)</li>
+                    <li><strong>Referência absoluta:</strong> $A$1 (não muda ao copiar)</li>
+                    <li><strong>Referência relativa:</strong> A1 (muda ao copiar)</li>
+                </ul>
+            </div>
+            <div style="background:var(--surface-variant);border-radius:8px;padding:12px;margin:8px 0;">
+                <strong>Funções mais cobradas:</strong>
+                <ul>
+                    <li><strong>=SOMA(A1:A10)</strong> → Soma o intervalo</li>
+                    <li><strong>=MÉDIA(A1:A10)</strong> → Média aritmética</li>
+                    <li><strong>=MÁXIMO(A1:A10)</strong> → Maior valor</li>
+                    <li><strong>=MÍNIMO(A1:A10)</strong> → Menor valor</li>
+                    <li><strong>=CONT.NÚM(A1:A10)</strong> → Conta células com números</li>
+                    <li><strong>=SE(condição; valor_se_verdadeiro; valor_se_falso)</strong></li>
+                </ul>
+            </div>
+            <p>💡 <strong>Gráficos no Excel:</strong> São criados a partir de dados selecionados. Os tipos mais comuns são pizza, barras, colunas e linhas.</p>
+        `,
+        relevance: "alta"
+    },
+    {
+        id: "adm_ppt_internet",
+        subject: "administracao",
+        title: "PowerPoint 2016, Internet e Correio Eletrônico",
+        content: `
+            <h3>📊 MS-PowerPoint 2016</h3>
+            <div style="background:var(--surface-variant);border-radius:8px;padding:12px;margin:8px 0;">
+                <strong>Conceitos principais:</strong>
+                <ul>
+                    <li><strong>Slide:</strong> Cada "página" da apresentação</li>
+                    <li><strong>Apresentação:</strong> Conjunto de slides (.pptx)</li>
+                    <li><strong>Layout:</strong> Modelo de organização visual do slide</li>
+                    <li><strong>Tema:</strong> Conjunto de cores, fontes e efeitos</li>
+                    <li><strong>Animação:</strong> Efeito que ocorre em elementos dentro do slide</li>
+                    <li><strong>Transição:</strong> Efeito entre um slide e o próximo</li>
+                    <li><strong>Anotações (Modo de anotações):</strong> Texto que o apresentador vê, mas não o público</li>
+                    <li><strong>Modo de exibição do apresentador:</strong> Mostra slide atual, próximo e anotações</li>
+                    <li><strong>Botões de Ação:</strong> Hiperlinks para outros slides/arquivos/sites</li>
+                </ul>
+            </div>
+
+            <h3>🌐 Internet — Conceitos Fundamentais</h3>
+            <ul>
+                <li><strong>URL (Uniform Resource Locator):</strong> Endereço de um site (ex: <em>https://www.gov.br</em>)</li>
+                <li><strong>HTTP/HTTPS:</strong> HTTPS é a versão segura (cadeado 🔒) — dados criptografados</li>
+                <li><strong>Navegador (Browser):</strong> Programa para acessar sites (Chrome, Edge, Firefox)</li>
+                <li><strong>Link (Hiperlink):</strong> Texto/imagem clicável que leva a outra página</li>
+                <li><strong>Cookie:</strong> Arquivo salvo no navegador para guardar preferências do usuário</li>
+                <li><strong>Download:</strong> Baixar arquivo da internet para o computador</li>
+                <li><strong>Upload:</strong> Enviar arquivo do computador para a internet</li>
+            </ul>
+
+            <h3>📧 Correio Eletrônico (E-mail)</h3>
+            <div style="background:var(--surface-variant);border-radius:8px;padding:12px;margin:8px 0;">
+                <strong>Campos do e-mail:</strong>
+                <ul>
+                    <li><strong>Para (To):</strong> Destinatário principal</li>
+                    <li><strong>CC (Com cópia):</strong> Cópia visível para todos</li>
+                    <li><strong>CCO (Cópia oculta / BCC):</strong> Destinatário não é visível aos outros</li>
+                    <li><strong>Assunto (Subject):</strong> Resumo do tema do e-mail</li>
+                    <li><strong>Anexo (Attachment):</strong> Arquivo enviado junto com a mensagem</li>
+                </ul>
+            </div>
+            <div style="background:var(--error-container);color:var(--on-error-container);border-radius:8px;padding:12px;margin:8px 0;">
+                <strong>⚠️ Segurança Digital:</strong>
+                <ul>
+                    <li>❌ <strong>Phishing:</strong> E-mail falso que tenta enganar o usuário</li>
+                    <li>❌ <strong>Spam:</strong> Mensagem não solicitada enviada em massa</li>
+                    <li>✅ Nunca abrir anexos de remetentes desconhecidos</li>
+                    <li>✅ Verificar o endereço do remetente com cuidado</li>
+                </ul>
+            </div>
+        `,
+        relevance: "alta"
+    },
+    {
+        id: "adm_gestao_materiais",
+        subject: "administracao",
+        title: "Gestão de Materiais, Estoques e Organização Pública",
+        content: `
+            <h3>📦 Gestão de Materiais — Classificação por Estratégia</h3>
+            <div style="background:var(--surface-variant);border-radius:8px;padding:12px;margin:8px 0;">
+                <strong>Fazer ou Comprar:</strong>
+                <ul>
+                    <li><strong>Verticalização:</strong> A organização PRODUZ internamente o que precisa (menor dependência externa, maior controle)</li>
+                    <li><strong>Horizontalização:</strong> A organização TERCEIRIZA / compra de fornecedores (maior flexibilidade, menor custo fixo)</li>
+                </ul>
+                <strong>Criticidade:</strong>
+                <ul>
+                    <li><strong>Baixa criticidade:</strong> Falta do item não paralisa a operação</li>
+                    <li><strong>Alta criticidade:</strong> Falta do item causa paralisação (ex: medicamentos em hospital)</li>
+                </ul>
+            </div>
+
+            <h3>💰 Custos de Estoque</h3>
+            <div style="background:var(--surface-variant);border-radius:8px;padding:12px;margin:8px 0;">
+                <ul>
+                    <li><strong>Custos de manutenção/armazenagem:</strong> Proporcionais ao estoque médio (quanto mais estoque, maior o custo)</li>
+                    <li><strong>Custos de pedido/aquisição:</strong> Inversamente proporcionais — com mais estoque, faz-se menos pedidos</li>
+                    <li><strong>Custo de ruptura:</strong> Custo de faltar o item (perdas, urgências)</li>
+                </ul>
+                <p>💡 O <strong>Lote Econômico de Compra (LEC)</strong> é o ponto onde a soma dos custos de manutenção e de pedido é mínima.</p>
+            </div>
+
+            <h3>🏛️ Modelos de Administração Pública</h3>
+            <div style="background:var(--surface-variant);border-radius:8px;padding:12px;margin:8px 0;">
+                <ul>
+                    <li><strong>Patrimonialismo:</strong> Estado = extensão do soberano; sem distinção público/privado (era colonial)</li>
+                    <li><strong>Burocrático (Max Weber / era Vargas):</strong> Hierarquia, normas rígidas, concurso público, classificação de cargos, separação público/privado</li>
+                    <li><strong>Gerencial/Nova Gestão Pública (1990s):</strong> Foco em resultados, descentralização, eficiência, orientação ao cidadão-cliente</li>
+                </ul>
+            </div>
+
+            <h3>⚖️ Princípios de Direito Administrativo</h3>
+            <div style="background:var(--surface-variant);border-radius:8px;padding:12px;margin:8px 0;">
+                <ul>
+                    <li><strong>Supremacia do Interesse Público:</strong> O interesse coletivo prevalece sobre o privado. As finalidades públicas são INDISPONÍVEIS (agente não pode abrir mão delas)</li>
+                    <li><strong>Indisponibilidade do Interesse Público:</strong> Gestor não pode dispor dos bens e interesses públicos como se fossem seus</li>
+                    <li><strong>Autotutela:</strong> A Administração pode anular seus próprios atos ilegais ou revogar os inconvenientes</li>
+                </ul>
+            </div>
+
+            <h3>🔍 Controle Interno</h3>
+            <ul>
+                <li><strong>Definição:</strong> Controle exercido dentro de um mesmo Poder/órgão sobre seus próprios atos</li>
+                <li><strong>Finalidade principal:</strong> Racionalizar o uso dos recursos públicos (eficiência, eficácia)</li>
+                <li><strong>Controle Externo:</strong> Exercido pelo Poder Legislativo, com auxílio do Tribunal de Contas</li>
+            </ul>
+
+            <h3>📋 Lei 9.784/1999 — Processo Administrativo Federal</h3>
+            <ul>
+                <li>Regula o processo administrativo no âmbito federal</li>
+                <li>Legitimados para interpor recurso: titulares de direitos diretamente afetados; aqueles com interesses coletivos afetados; organizações e associações; e cidadãos (interesses difusos)</li>
+                <li><strong>Prazo recursal:</strong> 10 dias; instâncias máximas: 3</li>
+            </ul>
+        `,
+        relevance: "alta"
+    },
+
     // ─── ESPECÍFICOS ───────────────────────────────────────────────────
     {
         id: "esp_sus",
@@ -903,5 +1276,280 @@ const quizDb = [
         options: ["R$ 1.800,00", "R$ 2.000,00", "R$ 2.200,00", "R$ 2.400,00"],
         correctIndex: 1,
         explanation: "J = C × i × t → 360 = C × 0,03 × 6 → 360 = C × 0,18 → C = 360 ÷ 0,18 = R$ 2.000,00."
+    },
+
+    // ══════════════════════════════════════════════════════════════════
+    // ADMINISTRAÇÃO — 15 questões (Auxiliar Administrativo)
+    // ══════════════════════════════════════════════════════════════════
+    {
+        id: "q_adm1",
+        subject: "administracao",
+        question: "Qual documento registra formalmente as discussões e decisões tomadas em uma reunião?",
+        options: ["Ofício", "Memorando", "Ata", "Requerimento"],
+        correctIndex: 2,
+        explanation: "A ATA é o documento que registra o que foi discutido e decidido em uma reunião. Deve ser redigida sem espaços em branco e erros são corrigidos com 'digo' ou 'em tempo'."
+    },
+    {
+        id: "q_adm2",
+        subject: "administracao",
+        question: "Um servidor deseja fazer um pedido formal à Prefeitura Municipal. Qual documento ele deve utilizar?",
+        options: ["Ofício", "Ata", "Memorando", "Requerimento"],
+        correctIndex: 3,
+        explanation: "O REQUERIMENTO é o pedido feito por um cidadão ou servidor a uma autoridade pública. O Ofício é usado entre autoridades, e o Memorando é comunicação interna entre setores do mesmo órgão."
+    },
+    {
+        id: "q_adm3",
+        subject: "administracao",
+        question: "Qual a diferença entre OFÍCIO e MEMORANDO na comunicação oficial?",
+        options: [
+            "Ofício é externo (entre órgãos ou com o público); Memorando é interno (entre setores do mesmo órgão).",
+            "Ofício é para pedidos; Memorando é para registros de reunião.",
+            "Ofício é mais formal e deve ter assinatura digital; Memorando é verbal.",
+            "Não há diferença; ambos têm a mesma finalidade."
+        ],
+        correctIndex: 0,
+        explanation: "O OFÍCIO é a comunicação formal entre órgãos públicos diferentes ou entre um órgão e o cidadão. O MEMORANDO (ou Comunicado Interno) circula dentro do mesmo órgão, entre setores."
+    },
+    {
+        id: "q_adm4",
+        subject: "administracao",
+        question: "No ciclo vital dos documentos de arquivo, qual fase corresponde aos documentos em uso frequente, guardados no próprio setor?",
+        options: ["Arquivo Permanente", "Arquivo Intermediário", "Arquivo Corrente", "Arquivo Histórico"],
+        correctIndex: 2,
+        explanation: "O ARQUIVO CORRENTE (ativo) guarda documentos em uso frequente que ainda são necessários para as atividades diárias do setor. O Intermediário é semiativo e o Permanente tem valor histórico."
+    },
+    {
+        id: "q_adm5",
+        subject: "administracao",
+        question: "Um auxiliar administrativo recebe um documento, identifica seu assunto, numera e carimba. Esta etapa do protocolo chama-se:",
+        options: ["Expedição", "Autuação", "Recepção e Registro", "Encaminhamento"],
+        correctIndex: 2,
+        explanation: "A RECEPÇÃO e REGISTRO (às vezes chamado também de classificação + registro) consiste em receber, identificar o assunto e numerar/registrar o documento. A Autuação é quando se abre formalmente um processo."
+    },
+    {
+        id: "q_adm6",
+        subject: "administracao",
+        question: "Qual método de arquivamento é indicado quando os documentos são organizados pela data de criação ou recebimento?",
+        options: ["Alfabético", "Alfanumérico", "Geográfico", "Cronológico"],
+        correctIndex: 3,
+        explanation: "O método CRONOLÓGICO organiza os documentos pela data. É muito usado para contratos, faturas e correspondências. O alfabético organiza por nome; o geográfico, por local."
+    },
+    {
+        id: "q_adm7",
+        subject: "administracao",
+        question: "Qual das siglas representa os princípios constitucionais que regem a Administração Pública brasileira (Art. 37 da CF)?",
+        options: ["SIPOE", "LIMPE", "PODER", "ÉTICA"],
+        correctIndex: 1,
+        explanation: "LIMPE: Legalidade, Impessoalidade, Moralidade, Publicidade e Eficiência. São os 5 princípios expressos no Art. 37 da Constituição Federal de 1988."
+    },
+    {
+        id: "q_adm8",
+        subject: "administracao",
+        question: "Um servidor público atende dois cidadãos com a mesma situação, mas dá tratamento preferencial a um deles por ser seu conhecido. Qual princípio da Administração Pública foi violado?",
+        options: ["Eficiência", "Legalidade", "Impessoalidade", "Publicidade"],
+        correctIndex: 2,
+        explanation: "A IMPESSOALIDADE exige que o servidor atenda todos sem distinção, sem favoritismo ou perseguição. Tratar diferente quem está em situação idêntica viola este princípio."
+    },
+    {
+        id: "q_adm9",
+        subject: "administracao",
+        question: "No Windows 10, qual atalho de teclado EXCLUI um arquivo permanentemente, sem enviar para a Lixeira?",
+        options: ["Del", "Ctrl+Del", "Shift+Del", "Alt+Del"],
+        correctIndex: 2,
+        explanation: "O atalho SHIFT+DEL exclui o arquivo permanentemente, sem passar pela Lixeira. O simples DEL (ou tecla Delete) envia o arquivo para a Lixeira, de onde pode ser recuperado."
+    },
+    {
+        id: "q_adm10",
+        subject: "administracao",
+        question: "No MS-Word 2016, qual atalho de teclado é usado para LOCALIZAR uma palavra no texto?",
+        options: ["Ctrl+H", "Ctrl+F", "Ctrl+L", "Ctrl+G"],
+        correctIndex: 1,
+        explanation: "CTRL+F abre a caixa 'Localizar' no Word (e em muitos outros programas). CTRL+H abre 'Localizar e Substituir', que permite encontrar e trocar um texto por outro."
+    },
+    {
+        id: "q_adm11",
+        subject: "administracao",
+        question: "Em uma planilha do MS-Excel 2016, qual é a fórmula correta para somar os valores das células A1 até A10?",
+        options: ["=TOTAL(A1:A10)", "=ADICIONAR(A1,A10)", "=SOMA(A1:A10)", "=SOMAR[A1..A10]"],
+        correctIndex: 2,
+        explanation: "A função correta no Excel é =SOMA(A1:A10). O sinal de igualdade '=' inicia toda fórmula; os dois pontos ':' indicam um intervalo contínuo de células."
+    },
+    {
+        id: "q_adm12",
+        subject: "administracao",
+        question: "No MS-Excel, uma célula contém a referência '$A$1'. Isso significa que, ao copiar a fórmula para outras células, essa referência:",
+        options: [
+            "Muda automaticamente de linha e coluna.",
+            "Permanece fixa (absoluta) — não muda ao copiar.",
+            "Só muda a linha, a coluna fica fixa.",
+            "Só muda a coluna, a linha fica fixa."
+        ],
+        correctIndex: 1,
+        explanation: "A referência ABSOLUTA ($A$1) não muda ao ser copiada para outros locais. O cifrão '$' 'trava' tanto a coluna (A) quanto a linha (1). A referência relativa (A1) se ajusta ao ser copiada."
+    },
+    {
+        id: "q_adm13",
+        subject: "administracao",
+        question: "No MS-PowerPoint 2016, qual é a diferença entre ANIMAÇÃO e TRANSIÇÃO?",
+        options: [
+            "Animação é o efeito entre slides; Transição é o efeito dentro de um slide.",
+            "Animação é o efeito em objetos dentro de um slide; Transição é o efeito de passagem entre slides.",
+            "São sinônimos — referem-se ao mesmo recurso.",
+            "Animação é usado apenas em textos; Transição, apenas em imagens."
+        ],
+        correctIndex: 1,
+        explanation: "ANIMAÇÃO é o efeito aplicado a um elemento (texto, imagem) dentro de um slide (ex: 'Aparecer', 'Voar para dentro'). TRANSIÇÃO é o efeito visual que ocorre ao passar de um slide para o outro."
+    },
+    {
+        id: "q_adm14",
+        subject: "administracao",
+        question: "Ao enviar um e-mail, qual campo deve ser usado para incluir um destinatário que NÃO deve ser visto pelos outros destinatários?",
+        options: ["Para (To)", "CC (Com Cópia)", "CCO / BCC (Cópia Oculta)", "Assunto (Subject)"],
+        correctIndex: 2,
+        explanation: "CCO (Cópia Oculta) ou BCC (Blind Carbon Copy) envia uma cópia do e-mail sem que os outros destinatários saibam. O CC (Cópia) é visível a todos os destinatários."
+    },
+    {
+        id: "q_adm15",
+        subject: "administracao",
+        question: "Um servidor recebe um e-mail não solicitado com oferta comercial. Este tipo de mensagem indesejada é conhecido como:",
+        options: ["Phishing", "Spam", "Vírus", "Trojan"],
+        correctIndex: 1,
+        explanation: "SPAM é toda mensagem eletrônica não solicitada, enviada em massa, geralmente com fins comerciais. Phishing é um tipo de fraude que se passa por empresa/banco para roubar dados."
+    },
+
+    // ══════════════════════════════════════════════════════════════════
+    // ADMINISTRAÇÃO — Questões de prova real (Araraquara/SP - 2019)
+    // ══════════════════════════════════════════════════════════════════
+    {
+        id: "q_adm16",
+        subject: "administracao",
+        question: "Conforme a Lei n.º 9.784/1999, sobre recursos administrativos, quem tem legitimidade para interpor recurso?",
+        options: [
+            "Os titulares que forem parte do processo de interesse direto ao objeto do pleito.",
+            "Aqueles cujos direitos ou interesses forem indiretamente afetados pela decisão recorrida.",
+            "As associações no tocante de seus direitos, conforme seja constatada a veracidade.",
+            "Os cidadãos quanto a interesses difusos ou não, mediante comprovação."
+        ],
+        correctIndex: 0,
+        explanation: "Conforme o Art. 58 da Lei 9.784/99, têm legitimidade para interpor recurso: os titulares de direitos e interesses que forem parte do processo; aqueles cujos direitos ou interesses coletivos forem afetados; organizações e associações; e cidadãos, quanto a direitos difusos e coletivos."
+    },
+    {
+        id: "q_adm17",
+        subject: "administracao",
+        question: "No Modelo Burocrático de Administração Pública (governo Getúlio Vargas), qual procedimento é característico desse modelo?",
+        options: [
+            "Realização de concursos públicos de 4 em 4 anos.",
+            "Restrição por tempo hábil do sistema de mérito no serviço público.",
+            "Estabelecimento de Classificação de Cargos.",
+            "Adesão dos servidores públicos ao INSS."
+        ],
+        correctIndex: 2,
+        explanation: "O Modelo Burocrático (implantado no Brasil pela Reforma Administrativa de 1936, era Vargas) instituiu características como: concurso público para ingresso, classificação de cargos, hierarquia rígida, controle formal por normas e procedimentos. A Classificação de Cargos é um traço marcante desse modelo."
+    },
+    {
+        id: "q_adm18",
+        subject: "administracao",
+        question: "Qual é a característica central do Princípio da Supremacia do Interesse Público sobre o Privado?",
+        options: [
+            "A Administração Pública está numa relação de superioridade em relação ao particular conforme decreto.",
+            "As finalidades públicas não são disponíveis e não podem ser deixadas de lado pelos agentes públicos.",
+            "É ele que justifica as regras de suplência em órgãos colegiados.",
+            "O funcionário público deve cuidar dos interesses da coletividade e da entidade pública."
+        ],
+        correctIndex: 1,
+        explanation: "O princípio da Supremacia do Interesse Público significa que o interesse coletivo prevalece sobre o privado, e que as finalidades públicas são INDISPONÍVEIS — o agente público não pode abrir mão do interesse público, mesmo que queira. Este princípio fundamenta prerrogativas da Administração como desapropriação e poder de polícia."
+    },
+    {
+        id: "q_adm19",
+        subject: "administracao",
+        question: "Referindo o Decreto Nº 1.171/1994 (Código de Ética do Servidor Público Civil Federal), qual das alternativas NÃO é uma vedação ao servidor?",
+        options: [
+            "Usar o cargo ou função para obter qualquer favorecimento para si.",
+            "Prejudicar deliberadamente a reputação de outros servidores ou cidadãos.",
+            "Ser conivente com infração ao Código de Ética de sua profissão.",
+            "Usar de artifícios para procrastinar o exercício regular do seu serviço."
+        ],
+        correctIndex: 0,
+        explanation: "TODAS as alternativas são vedações ao servidor público, listadas no Decreto 1.171/94. O enunciado pede qual delas é 'vedação' — todas são. Porém, 'usar o cargo para favorecimento próprio' é a vedação mais básica e direta relacionada ao princípio da impessoalidade e moralidade. A questão originalmente testava o reconhecimento das vedações."
+    },
+    {
+        id: "q_adm20",
+        subject: "administracao",
+        question: "Na Gestão de Materiais, na classificação por 'Possibilidade de fazer ou comprar', as duas estratégias possíveis são:",
+        options: [
+            "Por ação higroscópica e por limitação do tempo.",
+            "Materiais de baixa criticidade e materiais de máxima criticidade.",
+            "Razões de armazenagem e manuseio.",
+            "Verticalização e horizontalização."
+        ],
+        correctIndex: 3,
+        explanation: "A classificação 'fazer ou comprar' divide os materiais em dois grupos de estratégia: VERTICALIZAÇÃO (produzir internamente — 'fazer') e HORIZONTALIZAÇÃO (terceirizar ou adquirir de fornecedores externos — 'comprar'). Esta decisão é estratégica para a gestão de suprimentos."
+    },
+    {
+        id: "q_adm21",
+        subject: "administracao",
+        question: "Além do custo próprio dos itens, quais outros custos estão relacionados à gestão de estoques?",
+        options: [
+            "Custos inversamente proporcionais ao nível do estoque médio.",
+            "Custos variantes do estoque médio.",
+            "Custos de movimentação ao nível do estoque médio.",
+            "Custos de refrigeração para os perecíveis."
+        ],
+        correctIndex: 0,
+        explanation: "Os custos de estoques incluem: custos de manutenção/armazenagem (proporcionais ao nível do estoque), custos de pedido/aquisição (inversamente proporcionais — quanto mais estoque, menos pedidos), e custos de ruptura (falta de estoque). A relação inversa entre custos de manutenção e de pedido é o fundamento do Lote Econômico de Compra (LEC)."
+    },
+    {
+        id: "q_adm22",
+        subject: "administracao",
+        question: "Sobre o conceito de Arquivo Intermediário nas organizações, qual das afirmações está CORRETA?",
+        options: [
+            "São documentos usados como fonte de pesquisa e informação histórica.",
+            "Servem também como prova, para consulta da própria administração.",
+            "Podem ser arquivados no período máximo de 4 anos.",
+            "Podem ser transferidos para depósitos mais distantes de quem os produziu ou recebeu."
+        ],
+        correctIndex: 3,
+        explanation: "O Arquivo Intermediário (2ª fase do ciclo vital) recebe documentos que já não são consultados frequentemente, mas ainda possuem valor administrativo e precisam aguardar prazos legais. Eles PODEM ser transferidos para depósitos mais afastados ('arquivo central' ou 'arquivo geral'), pois não precisam estar no setor de origem. A letra A descreve o Arquivo Permanente."
+    },
+    {
+        id: "q_adm23",
+        subject: "administracao",
+        question: "Na Classificação de Processos por Tipo, quais são dois exemplos corretos de categorias?",
+        options: [
+            "Tarefas e Apoio.",
+            "Cliente e Crítico.",
+            "Finalístico e Fornecedor.",
+            "Apoio e Crítico."
+        ],
+        correctIndex: 3,
+        explanation: "Os processos organizacionais são classificados em três tipos: Finalísticos (ou primários — entregam valor ao cliente externo), de Apoio (suportam os finalísticos, ex: RH, TI, finanças) e Críticos (de gestão/gerenciais, que monitoram e controlam). 'Apoio e Crítico' são dois tipos corretos nessa classificação."
+    },
+    {
+        id: "q_adm24",
+        subject: "administracao",
+        question: "Em relação à organização administrativa do Brasil, qual afirmação está CORRETA?",
+        options: [
+            "O Brasil se trata de uma federação.",
+            "É formado pela união dissolúvel de municípios e não dos estados.",
+            "Está assegurada a autonomia administrativa apenas aos seus membros.",
+            "Não se exige que a administração corresponda às postulações constitucionais."
+        ],
+        correctIndex: 0,
+        explanation: "O Brasil é uma REPÚBLICA FEDERATIVA — uma federação formada pela união INDISSOLÚVEL dos Estados, do Distrito Federal e Municípios (Art. 1º da CF/88). A federação é indissolúvel (não pode ser desfeita) e todos os entes têm autonomia (administrativa, política e financeira)."
+    },
+    {
+        id: "q_adm25",
+        subject: "administracao",
+        question: "Qual é a finalidade precípua (principal) do Controle Interno na Administração Pública?",
+        options: [
+            "Gira em torno dos aspectos administrativos, sem influência sobre contabilidade.",
+            "Não contribui para a elaboração dos orçamentos.",
+            "Proporcionar uma racionalização dos recursos públicos.",
+            "Refere-se ao exercício de controle de um Poder sobre os atos de outro Poder."
+        ],
+        correctIndex: 2,
+        explanation: "O Controle Interno é o exercido dentro de um mesmo Poder ou órgão sobre os seus próprios atos. Sua finalidade principal é RACIONALIZAR o uso dos recursos públicos, garantindo eficiência, eficácia e conformidade legal. Ele também apoia a elaboração de relatórios e orçamentos — o que torna a alternativa B incorreta."
     }
 ];
+
+

@@ -121,7 +121,8 @@ function bindChips() {
                     'especificos': 'Conhecimentos Específicos do ACS.',
                     'portugues': 'Língua Portuguesa para o Edital.',
                     'matematica': 'Matemática e Raciocínio (Edital).',
-                    'gerais': 'Lei e História de Iracemápolis.'
+                    'gerais': 'Lei e História de Iracemápolis.',
+                    'administracao': 'Administração — Conhecimentos Específicos do Auxiliar Administrativo.'
                 };
                 const sub = document.getElementById('subtitle-summaries');
                 if (sub) sub.textContent = subtitles[currentSubject] || subtitles['all'];
