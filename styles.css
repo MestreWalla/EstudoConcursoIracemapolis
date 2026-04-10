@@ -53,12 +53,14 @@
     --on-error-container: #ffdad6;
 
     --surface: #191c1b;
+    --surface-rgb: 25, 28, 27;
     --on-surface: #e1e3e0;
     --surface-variant: #3f4945;
     --on-surface-variant: #bfc9c4;
 
     --outline: #89938e;
     --outline-variant: #3f4945;
+    --outline-variant-rgb: 63, 73, 69;
 }
 
 body {
