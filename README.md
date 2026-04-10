@@ -12,6 +12,7 @@
 4. [Funcionalidades Detalhadas](#-funcionalidades-detalhadas)
    - [Aba: Resumos](#aba-resumos)
    - [Aba: Simulados (Quiz)](#aba-simulados-quiz)
+   - [Aba: Apostila](#aba-apostila)
    - [Aba: A Cidade](#aba-a-cidade)
    - [Aba: A Lei](#aba-a-lei)
 5. [Design System — Material Design 3](#-design-system--material-design-3)
@@ -72,13 +73,14 @@ Estudo/
 ├── index.html                    # Ponto de entrada. Contém o shell da app e todos os <template>s
 ├── app.js                        # Lógica principal: navegação, quiz, Lei, estatísticas, FAB, tema
 ├── data.js                       # Banco de dados: resumos (summaries[]) e questões (quizDb[])
+├── apostila.js                   # Conteúdo expandido da Apostila Auxiliar Administrativo
 ├── LeiOraganicaIracemapolis.js   # Lei Orgânica completa como array de strings (leiCompleta[])
 ├── styles.css                    # Design system completo (Material Design 3, dark mode, animações)
 ├── manifest.json                 # Manifesto do PWA (nome, ícone, tema, orientação)
 ├── sw.js                         # Service Worker — cache offline de todos os assets
 ├── icon.png                      # Ícone do app (512x512px, purpose: any maskable)
 │
-└── FerramentasFontes/            # Pasta de referências e materiais-fonte utilizados na pesquisa
+└── FerramentasFontes/            # Pasta de referências e materiais-fonte utilizados na pesquisa (PDFs, TXTs)
 ```
 
 ### Fluxo de Dados
@@ -88,7 +90,8 @@ index.html
   ├── Carrega styles.css (globais e tokens do design system)
   ├── Carrega LeiOraganicaIracemapolis.js → define window.leiCompleta[]
   ├── Carrega data.js → define window.summaries[] e window.quizDb[]
-  └── Carrega app.js → lê templates HTML, monta SPA, consome summaries/quizDb/leiCompleta
+  ├── Carrega apostila.js → define window.apostilaCapitulos[]
+  └── Carrega app.js → lê templates HTML, monta SPA, consome summaries/quizDb/leiCompleta/apostila
 ```
 
 ---
@@ -165,7 +168,24 @@ index.html
 - **Botão "Zerar Estatísticas"**: limpa `appState.stats` e localStorage após confirmação com `confirm()`
 - Estatísticas persistem entre sessões via `localStorage.getItem('agentHealthStats')`
 
+- Estatísticas persistem entre sessões via `localStorage.getItem('agentHealthStats')`
+
 ---
+
+### Aba: Apostila
+
+**Arquivo de template**: `index.html` → `<template id="tpl-apostila">`  
+**Função de inicialização**: `app.js` → `initApostila()`  
+**Fonte de dados**: `apostila.js`
+
+Módulo dedicado ao cargo de **Auxiliar Administrativo**, com conteúdo teórico robusto baseado no material didático PRONATEC/IFPR.
+
+- **Organização por Unidades**:
+  - **Unidade 1 — Fundamentos**: Administração, Organização, Habilidades do Administrador e Trabalho em Equipe.
+  - **Unidade 2 — Gestão**: Departamento Pessoal, Contabilidade/Patrimônio, Custos, Juros Simples/Compostos e Informática.
+  - **Unidade 3 — Rotinas**: Escritório, Ética, Comunicação Empresarial, Redação Oficial (Ofício, Memorando, etc.) e Arquivologia.
+- **Filtro por Chips**: permite visualizar capítulos de uma unidade específica ou a apostila completa.
+- **Formatação de Card**: capítulos expansíveis com suporte a tabelas, fórmulas matemáticas e blocos de destaque.
 
 ### Aba: A Cidade
 
@@ -498,6 +518,13 @@ const urlsToCache = [
 Isso garante que **o app funciona completamente offline** após a primeira visita, incluindo toda a Lei Orgânica e todos os resumos/questões.
 
 > ⚠️ Imagens externas (Toda Matéria, Brasil Escola) e fontes do Google/Font Awesome requerem conexão.
+
+### Popup de Instalação Customizado
+Para melhorar a taxa de conversão de usuários para o app instalado, foi implementado um **Install Banner** personalizado:
+- **Disparado por `beforeinstallprompt`**: Captura o evento nativo do browser.
+- **Design M3**: Banner flutuante no final da página (acima da nav) com ícone, descrição e ações.
+- **Persistência de Rejeição**: Se o usuário clicar em "Agora não", o popup é silenciado por 24 horas via localStorage (`pwa-prompt-dismissed`).
+
 
 ---
 

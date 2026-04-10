@@ -1,3 +1,4 @@
+console.log("🔥 app.js carregado");
 // Estado da Aplicação
 const appState = {
     currentView: 'summaries',
@@ -12,19 +13,27 @@ const appState = {
     }
 };
 
+if (isAppInstalled()) {
+    console.log('📱 App já instalado');
+}
+
+// ═══════════════════════════════════════════════════════════
+// PWA Installation Logic (Captura Global)
+// ═══════════════════════════════════════════════════════════
+
 // Áudio e Vibração 
 window.AudioContext = window.AudioContext || window.webkitAudioContext;
 const audioCtx = new AudioContext();
 
 function playSound(type) {
-    if(audioCtx.state === 'suspended') audioCtx.resume();
+    if (audioCtx.state === 'suspended') audioCtx.resume();
     try {
         const osc = audioCtx.createOscillator();
         const gain = audioCtx.createGain();
         osc.connect(gain);
         gain.connect(audioCtx.destination);
         const now = audioCtx.currentTime;
-        
+
         if (type === 'tick') {
             osc.type = 'sine';
             osc.frequency.setValueAtTime(600, now);
@@ -33,7 +42,7 @@ function playSound(type) {
             gain.gain.exponentialRampToValueAtTime(0.01, now + 0.1);
             osc.start(now);
             osc.stop(now + 0.1);
-            if(navigator.vibrate) navigator.vibrate(15);
+            if (navigator.vibrate) navigator.vibrate(15);
         } else if (type === 'correct') {
             osc.type = 'sine';
             osc.frequency.setValueAtTime(523.25, now);
@@ -42,7 +51,7 @@ function playSound(type) {
             gain.gain.exponentialRampToValueAtTime(0.01, now + 0.5);
             osc.start(now);
             osc.stop(now + 0.5);
-            if(navigator.vibrate) navigator.vibrate([30, 50, 30]);
+            if (navigator.vibrate) navigator.vibrate([30, 50, 30]);
         } else if (type === 'wrong') {
             osc.type = 'sawtooth';
             osc.frequency.setValueAtTime(150, now);
@@ -51,7 +60,7 @@ function playSound(type) {
             gain.gain.exponentialRampToValueAtTime(0.01, now + 0.3);
             osc.start(now);
             osc.stop(now + 0.3);
-            if(navigator.vibrate) navigator.vibrate([150]);
+            if (navigator.vibrate) navigator.vibrate([150]);
         } else if (type === 'finish') {
             osc.type = 'triangle';
             osc.frequency.setValueAtTime(440, now);
@@ -62,9 +71,14 @@ function playSound(type) {
             gain.gain.exponentialRampToValueAtTime(0.01, now + 0.8);
             osc.start(now);
             osc.stop(now + 0.8);
-            if(navigator.vibrate) navigator.vibrate([50, 50, 50, 50, 200]);
+            if (navigator.vibrate) navigator.vibrate([50, 50, 50, 50, 200]);
         }
-    } catch(e) {}
+    } catch (e) { }
+}
+
+function isAppInstalled() {
+    return window.matchMedia('(display-mode: standalone)').matches
+        || window.navigator.standalone === true;
 }
 
 // Elementos do DOM
@@ -79,7 +93,7 @@ function initTheme() {
         document.body.setAttribute('data-theme', 'dark');
         themeBtn.innerHTML = '<i class="fas fa-sun"></i>';
     }
-    
+
     themeBtn.addEventListener('click', () => {
         playSound('tick');
         const isDark = document.body.getAttribute('data-theme') === 'dark';
@@ -103,17 +117,17 @@ function bindChips() {
     chips.forEach(chip => {
         chip.addEventListener('click', (e) => {
             playSound('tick');
-            
+
             // Remove active dos irmãos no mesmo container
             const container = e.currentTarget.closest('.chip-container');
             if (container) {
-                 container.querySelectorAll('.chip').forEach(c => c.classList.remove('active'));
-                 e.currentTarget.classList.add('active');
+                container.querySelectorAll('.chip').forEach(c => c.classList.remove('active'));
+                e.currentTarget.classList.add('active');
             }
-            
+
             currentSubject = e.currentTarget.getAttribute('data-subject');
             const currentUnidade = e.currentTarget.getAttribute('data-unidade');
-            
+
             // Apostila filter
             if (currentUnidade !== null && document.getElementById('apostila-list')) {
                 initApostila(currentUnidade);
@@ -127,7 +141,7 @@ function bindChips() {
                 if (sub) sub.textContent = subtitlesApostila[currentUnidade] || subtitlesApostila['all'];
                 return;
             }
-            
+
             // Recarrega a view de acordo com o lugar onde estavamos
             if (document.getElementById('summaries-list')) {
                 initSummaries();
@@ -142,7 +156,7 @@ function bindChips() {
                 const sub = document.getElementById('subtitle-summaries');
                 if (sub) sub.textContent = subtitles[currentSubject] || subtitles['all'];
             }
-            
+
             if (document.getElementById('quiz-container')) {
                 initQuiz();
             }
@@ -173,10 +187,10 @@ function setupNavigation() {
             const target = e.currentTarget.dataset.target;
             playSound('tick');
             if (appState.currentView === target) return;
-            
+
             navItems.forEach(n => n.classList.remove('active'));
             e.currentTarget.classList.add('active');
-            
+
             appState.currentView = target;
             renderView(target);
         });
@@ -185,11 +199,11 @@ function setupNavigation() {
 
 function renderView(view) {
     appContent.innerHTML = templates[view];
-    window.scrollTo(0,0);
-    
+    window.scrollTo(0, 0);
+
     currentSubject = 'all'; // Reseta ao trocar de View para All 
     bindChips();
-    
+
     if (view === 'summaries') initSummaries();
     if (view === 'quiz') initQuiz();
     if (view === 'stats') renderStats();
@@ -201,18 +215,18 @@ function renderView(view) {
 function initSummaries() {
     const list = document.getElementById('summaries-list');
     list.innerHTML = '';
-    
+
     // Filtro!
     let filteredSummaries = summaries;
     if (currentSubject !== 'all') {
         filteredSummaries = summaries.filter(s => s.subject === currentSubject);
     }
-    
+
     if (filteredSummaries.length === 0) {
         list.innerHTML = '<p style="text-align:center; margin-top: 20px;">Nenhum resumo nesta matéria ainda.</p>';
         return;
     }
-    
+
     filteredSummaries.forEach(item => {
         const div = document.createElement('div');
         div.className = 'summary-card';
@@ -228,7 +242,7 @@ function initSummaries() {
                 ${item.content}
             </div>
         `;
-        
+
         div.addEventListener('click', () => {
             playSound('tick');
             div.classList.toggle('expanded');
@@ -283,7 +297,7 @@ function initApostila(unidadeFilter = 'all') {
 function initLei() {
     const list = document.getElementById('lei-content');
     const input = document.getElementById('lei-search');
-    
+
     function isHeadingName(line) {
         // Retorna true se a linha é um nome descritivo (não um marcador nem artigo)
         return line
@@ -301,7 +315,7 @@ function initLei() {
     function renderBlocks(filterText = "") {
         list.innerHTML = "";
         const termo = filterText.toLowerCase();
-        
+
         let cont = 0;
         let skipNext = false;
 
@@ -358,7 +372,7 @@ function initLei() {
             }
         }
     }
-    
+
     // Constrói o Índice Estrutural Rápido M3
     const indexContainer = document.getElementById('lei-index');
     if (indexContainer && indexContainer.children.length === 0) {
@@ -367,12 +381,12 @@ function initLei() {
             // Pega o nome descritivo da linha seguinte (ex: "DA ORGANIZAÇÃO MUNICIPAL")
             const nextLine = leiCompleta[idx + 1] || '';
             const nome = (!nextLine.startsWith('Art.')
-                       && !nextLine.startsWith('CAPÍTULO')
-                       && !nextLine.startsWith('TÍTULO')
-                       && !nextLine.startsWith('Seção')
-                       && !nextLine.startsWith('§')
-                       && nextLine.length < 80)
-                       ? nextLine : '';
+                && !nextLine.startsWith('CAPÍTULO')
+                && !nextLine.startsWith('TÍTULO')
+                && !nextLine.startsWith('Seção')
+                && !nextLine.startsWith('§')
+                && nextLine.length < 80)
+                ? nextLine : '';
 
             if (par.startsWith('TÍTULO')) {
                 const label = nome ? `${par} — ${nome}` : par;
@@ -383,7 +397,7 @@ function initLei() {
             }
         });
         indexContainer.innerHTML = indexHtml;
-        
+
         indexContainer.querySelectorAll('.index-item').forEach(link => {
             link.addEventListener('click', (e) => {
                 e.preventDefault();
@@ -400,9 +414,9 @@ function initLei() {
             });
         });
     }
-    
+
     renderBlocks(); // Carrega tudo inicialmente
-    
+
     // Busca em tempo real
     input.addEventListener('input', (e) => {
         renderBlocks(e.target.value);
@@ -412,9 +426,9 @@ function initLei() {
 // Simulado
 function initQuiz() {
     renderStats(); // Monta a barra de progresso M3 dentro da pagina de Simulado
-    
+
     let pool = quizDb;
-    
+
     if (currentSubject !== 'all') {
         pool = quizDb.filter(q => q.subject === currentSubject);
     } else {
@@ -422,32 +436,32 @@ function initQuiz() {
         // Isso pode ser aprimorado com lógica complexa, por enquanto misturamos tudo
         pool = [...quizDb];
     }
-    
+
     // Embaralhar e pegar 10 questões
     appState.quiz.questions = [...pool].sort(() => 0.5 - Math.random()).slice(0, 10);
     appState.quiz.currentIndex = 0;
     appState.quiz.score = 0;
-    
+
     const container = document.getElementById('quiz-container');
     if (appState.quiz.questions.length === 0) {
         container.innerHTML = '<p style="text-align:center;">Não há questões suficientes para esta classe ainda no banco.</p>';
         return;
     }
-    
+
     const restartBtn = document.getElementById('restart-quiz-btn');
     if (restartBtn) {
         const newRestart = restartBtn.cloneNode(true);
         restartBtn.parentNode.replaceChild(newRestart, restartBtn);
         newRestart.addEventListener('click', () => { playSound('tick'); initQuiz(); });
     }
-    
+
     const nextBtn = document.getElementById('next-question-btn');
     if (nextBtn) {
         const newNext = nextBtn.cloneNode(true);
         nextBtn.parentNode.replaceChild(newNext, nextBtn);
         newNext.addEventListener('click', () => { playSound('tick'); nextQuestion(); });
     }
-    
+
     const dStatsBtn = document.getElementById('reset-stats-btn');
     if (dStatsBtn) {
         const newReset = dStatsBtn.cloneNode(true);
@@ -460,7 +474,7 @@ function initQuiz() {
             }
         });
     }
-    
+
     showQuestion();
 }
 
@@ -470,24 +484,24 @@ function showQuestion() {
     const feedback = document.getElementById('quiz-feedback');
     const result = document.getElementById('quiz-result');
     const progressBar = document.getElementById('quiz-progress-bar');
-    
+
     container.classList.remove('hidden');
     feedback.classList.add('hidden');
     result.classList.add('hidden');
     container.innerHTML = '';
-    
+
     // Animar a barra de progresso (calcula o preenchimento do simulado)
     const progPercent = (appState.quiz.currentIndex / appState.quiz.questions.length) * 100;
     progressBar.style.width = `${progPercent}%`;
-    
+
     const h3 = document.createElement('h3');
     h3.className = 'quiz-question';
     h3.textContent = qData.question;
     container.appendChild(h3);
-    
+
     const optsDiv = document.createElement('div');
     optsDiv.className = 'quiz-options';
-    
+
     qData.options.forEach((opt, index) => {
         const btn = document.createElement('button');
         btn.className = 'option-btn';
@@ -495,14 +509,14 @@ function showQuestion() {
         btn.addEventListener('click', () => handleAnswer(index, btn, optsDiv));
         optsDiv.appendChild(btn);
     });
-    
+
     container.appendChild(optsDiv);
 }
 
 function handleAnswer(selectedIndex, btnElement, optsDiv) {
     const qData = appState.quiz.questions[appState.quiz.currentIndex];
     const isCorrect = selectedIndex === qData.correctIndex;
-    
+
     // Desabilitar botões
     const btns = optsDiv.querySelectorAll('button');
     btns.forEach((b, i) => {
@@ -510,7 +524,7 @@ function handleAnswer(selectedIndex, btnElement, optsDiv) {
         if (i === qData.correctIndex) b.classList.add('correct');
         else if (i === selectedIndex && !isCorrect) b.classList.add('wrong');
     });
-    
+
     // Atualizar stats gbobais
     if (isCorrect) {
         playSound('correct');
@@ -522,7 +536,7 @@ function handleAnswer(selectedIndex, btnElement, optsDiv) {
         appState.stats.wrong++;
         showFeedback(false, "Incorreto. A lei diz que: " + qData.explanation);
     }
-    
+
     saveStats();
 }
 
@@ -531,12 +545,12 @@ function showFeedback(isCorrect, text) {
     const fbTitle = fb.querySelector('.feedback-title');
     const fbText = fb.querySelector('.feedback-text');
     const fbIcon = fb.querySelector('.feedback-icon i');
-    
+
     fb.className = `feedback-card ${isCorrect ? 'success' : 'error'}`;
     fbTitle.textContent = isCorrect ? 'Correto!' : 'Ops, você errou!';
     fbText.textContent = text;
     fbIcon.className = isCorrect ? 'fas fa-check-circle' : 'fas fa-exclamation-circle';
-    
+
     fb.classList.remove('hidden');
 }
 
@@ -552,18 +566,18 @@ function nextQuestion() {
 function showResult() {
     document.getElementById('quiz-container').classList.add('hidden');
     document.getElementById('quiz-feedback').classList.add('hidden');
-    
+
     const result = document.getElementById('quiz-result');
     const scoreText = document.getElementById('score-text');
     const message = document.getElementById('score-message');
-    
+
     const total = appState.quiz.questions.length;
     const percentage = Math.round((appState.quiz.score / total) * 100);
-    
+
     result.classList.remove('hidden');
     scoreText.textContent = `${percentage}%`;
     playSound('finish');
-    
+
     if (percentage === 100) message.textContent = "Gabaritou! Pronto para a posse!";
     else if (percentage >= 70) message.textContent = "Ótimo desempenho! Continue revisando.";
     else message.textContent = "Precisa estudar mais. Foco nos resumos de alta probabilidade!";
@@ -586,18 +600,18 @@ function renderStats() {
     const tw = appState.stats.wrong;
     const total = tc + tw;
     const acc = total > 0 ? Math.round((tc / total) * 100) : 0;
-    
+
     const sc = document.getElementById('stat-correct');
     const sw = document.getElementById('stat-wrong');
     const sa = document.getElementById('stat-accuracy');
     const mini = document.getElementById('mini-stats');
-    
+
     if (sc && sw && sa) {
         sc.textContent = tc;
         sw.textContent = tw;
         sa.textContent = acc + '%';
     }
-    
+
     if (mini) {
         if (total > 0) {
             mini.innerHTML = `<span class="color-green">${tc} ✔</span>  <span class="color-red">${tw} ✖</span>  <span class="color-blue">${acc}%</span>`;
@@ -610,7 +624,7 @@ function renderStats() {
 // Iniciar app
 document.addEventListener('DOMContentLoaded', () => {
     init();
-    
+
     // FAB Scroll Top
     const fab = document.getElementById('fab-top');
     window.addEventListener('scroll', () => {
@@ -627,4 +641,5 @@ document.addEventListener('DOMContentLoaded', () => {
             window.scrollTo({ top: 0, behavior: 'smooth' });
         });
     }
+
 });

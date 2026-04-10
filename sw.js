@@ -1,16 +1,16 @@
-const CACHE_NAME = 'agente-saude-v2';
+const CACHE_NAME = 'iracemapolis-estudo-v3';
 const urlsToCache = [
   './',
   './index.html',
   './styles.css',
   './app.js',
   './data.js',
+  './apostila.js',
   './LeiOraganicaIracemapolis.js',
   './icon.png',
   './manifest.json'
 ];
 
-// Instala o service worker e salva no cache
 self.addEventListener('install', event => {
   event.waitUntil(
     caches.open(CACHE_NAME)
@@ -20,12 +20,24 @@ self.addEventListener('install', event => {
   );
 });
 
-// Intercepta as requisições para devolver do cache se estiver offline
+self.addEventListener('activate', event => {
+  event.waitUntil(
+    caches.keys().then(cacheNames => {
+      return Promise.all(
+        cacheNames.filter(cacheName => {
+          return cacheName !== CACHE_NAME;
+        }).map(cacheName => {
+          return caches.delete(cacheName);
+        })
+      );
+    })
+  );
+});
+
 self.addEventListener('fetch', event => {
   event.respondWith(
     caches.match(event.request)
       .then(response => {
-        // Retorna do cache se encontrou, senão busca na rede
         return response || fetch(event.request);
       })
   );
