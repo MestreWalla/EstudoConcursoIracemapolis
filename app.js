@@ -20,6 +20,93 @@ if (isAppInstalled()) {
 // ═══════════════════════════════════════════════════════════
 // PWA Installation Logic (Captura Global)
 // ═══════════════════════════════════════════════════════════
+let deferredPrompt;
+const PWA_STORAGE_KEY = 'pwa_install_dismissed';
+
+window.addEventListener('beforeinstallprompt', (e) => {
+    // Previne a barra padrão do Chrome/Android
+    e.preventDefault();
+    // Guarda o evento para disparar depois
+    deferredPrompt = e;
+    
+    // Verifica se não foi ignorado recentemente (7 dias)
+    if (!isDismissed() && !isAppInstalled()) {
+        setTimeout(() => {
+            showPwaBanner();
+        }, 3000); // Mostra após 3 segundos
+    }
+});
+
+function showPwaBanner() {
+    const banner = document.getElementById('pwa-install-banner');
+    if (banner) banner.classList.remove('hidden');
+}
+
+function isDismissed() {
+    const dismissedAt = localStorage.getItem(PWA_STORAGE_KEY);
+    if (!dismissedAt) return false;
+    
+    const sevenDays = 7 * 24 * 60 * 60 * 1000;
+    return (Date.now() - parseInt(dismissedAt)) < sevenDays;
+}
+
+// Lógica iOS (Safari não dispara beforeinstallprompt)
+function checkIosInstall() {
+    const isIos = /iPad|iPhone|iPod/.test(navigator.userAgent) && !window.MSStream;
+    const isSafari = /^((?!chrome|android).)*safari/i.test(navigator.userAgent);
+    
+    if (isIos && isSafari && !isAppInstalled() && !isDismissed()) {
+        setTimeout(() => {
+            const iosGuide = document.getElementById('ios-install-guide');
+            if (iosGuide) iosGuide.classList.remove('hidden');
+        }, 4000);
+    }
+}
+
+// Handlers de Instalação
+document.addEventListener('DOMContentLoaded', () => {
+    const installBtn = document.getElementById('pwa-install-btn');
+    const closeBtn = document.getElementById('pwa-close');
+    const iosCloseBtn = document.getElementById('ios-close');
+
+    if (installBtn) {
+        installBtn.addEventListener('click', async () => {
+            if (!deferredPrompt) return;
+            
+            deferredPrompt.prompt();
+            const { outcome } = await deferredPrompt.userChoice;
+            console.log(`Usuário escolheu: ${outcome}`);
+            
+            deferredPrompt = null;
+            document.getElementById('pwa-install-banner').classList.add('hidden');
+        });
+    }
+
+    if (closeBtn) {
+        closeBtn.addEventListener('click', () => {
+            localStorage.setItem(PWA_STORAGE_KEY, Date.now().toString());
+            document.getElementById('pwa-install-banner').classList.add('hidden');
+        });
+    }
+
+    if (iosCloseBtn) {
+        iosCloseBtn.addEventListener('click', () => {
+            localStorage.setItem(PWA_STORAGE_KEY, Date.now().toString());
+            document.getElementById('ios-install-guide').classList.add('hidden');
+        });
+    }
+
+    // Checa iOS após carregar
+    checkIosInstall();
+});
+
+window.addEventListener('appinstalled', () => {
+    console.log('PWA instalado com sucesso!');
+    deferredPrompt = null;
+    const banner = document.getElementById('pwa-install-banner');
+    if (banner) banner.classList.add('hidden');
+});
+
 
 // Áudio e Vibração 
 window.AudioContext = window.AudioContext || window.webkitAudioContext;

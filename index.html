@@ -303,7 +303,50 @@
 
 
 
+    <!-- Barra de Instalação PWA -->
+    <div id="pwa-install-banner" class="pwa-banner hidden">
+        <div class="pwa-content">
+            <div class="pwa-icon">
+                <img src="icon.png" alt="App Icon">
+            </div>
+            <div class="pwa-text">
+                <h3>Instalar App</h3>
+                <p>Acesse o simulado e resumos mais rápido direto da sua tela inicial.</p>
+            </div>
+            <div class="pwa-actions">
+                <button id="pwa-close" class="btn-text" aria-label="Fechar">Agora não</button>
+                <button id="pwa-install-btn" class="btn-small-primary">Instalar</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Guia de Instalação iOS -->
+    <div id="ios-install-guide" class="ios-guide hidden">
+        <div class="ios-guide-content">
+            <button id="ios-close" class="ios-close-btn"><i class="fas fa-times"></i></button>
+            <div class="ios-guide-header">
+                <img src="icon.png" alt="App Icon" class="ios-app-icon">
+                <div class="ios-app-info">
+                    <h3>Instalar no iPhone</h3>
+                    <p>Adicione à sua tela de início</p>
+                </div>
+            </div>
+            <div class="ios-steps">
+                <div class="ios-step">
+                    <span class="step-num">1</span>
+                    <p>Toque no ícone de <strong>Compartilhar</strong> <i class="fa-solid fa-arrow-up-from-bracket" style="color: #007aff;"></i> na barra inferior.</p>
+                </div>
+                <div class="ios-step">
+                    <span class="step-num">2</span>
+                    <p>Role para baixo e toque em <strong>"Adicionar à Tela de Início"</strong> <i class="fa-regular fa-square-plus"></i>.</p>
+                </div>
+            </div>
+            <div class="ios-pointer"></div>
+        </div>
+    </div>
+
     <script src="LeiOraganicaIracemapolis.js"></script>
+
     <script src="data.js"></script>
     <script src="apostila.js"></script>
     <script src="app.js"></script>
